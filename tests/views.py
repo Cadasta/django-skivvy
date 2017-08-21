@@ -16,8 +16,12 @@ class GenericView(View):
         return HttpResponse('<h1>Test content<h1>')
 
     def post(self, request, *args, **kwargs):
+        s_data = self.request.session.get('s_data')
         field, value = dict(request.POST).popitem()
-        return HttpResponse('<h1>{}: {}<h1>'.format(field, value[0]))
+        data = '<h1>{}: {}<h1>'.format(field, value[0])
+        if s_data:
+            data = data + s_data
+        return HttpResponse(data)
 
 
 class GenericTemplateView(TemplateView):
