@@ -13,15 +13,15 @@ class GenericView(View):
 
     def get(self, request, *args, **kwargs):
         messages.add_message(request, messages.INFO, 'Hello world.')
-        return HttpResponse('<h1>Test content<h1>')
+        s_data = self.request.session.get('s_data')
+        data = '<h1>Test content<h1>'
+        if s_data:
+            data = data + '<p>{}</p>'.format(s_data)
+        return HttpResponse(data)
 
     def post(self, request, *args, **kwargs):
-        s_data = self.request.session.get('s_data')
         field, value = dict(request.POST).popitem()
-        data = '<h1>{}: {}<h1>'.format(field, value[0])
-        if s_data:
-            data = data + s_data
-        return HttpResponse(data)
+        return HttpResponse('<h1>{}: {}<h1>'.format(field, value[0]))
 
 
 class GenericTemplateView(TemplateView):
