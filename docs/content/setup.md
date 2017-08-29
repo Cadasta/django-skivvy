@@ -26,7 +26,7 @@ class MyViewTestCase(APITestCase, TestCase):
 
 The method `request` returns a response from your view. The response returned is based on the generic [ configuration](#test-configuration) of the test case. 
 
-To test special cases, you can use `url_kwargs`, `get_data` and `post_data` parameters to temporarily overwrite the generic test setup. 
+To test special cases, you can use `url_kwargs`, `get_data`, `post_data`, `session_data` and `content_type` parameters to temporarily overwrite the generic test setup. 
 
 ```python
 class MyViewTestCase(ViewTestCase, TestCase):
@@ -35,7 +35,8 @@ class MyViewTestCase(ViewTestCase, TestCase):
                                  user=AnonymousUser(),
                                  url_kwargs={},
                                  get_data={},
-                                 post_data={})
+                                 post_data={},
+                                 session_data={})
 ```
 
 | Argument      | Type          | Default       | Description   |
@@ -45,6 +46,7 @@ class MyViewTestCase(ViewTestCase, TestCase):
 | `url_kwargs`  | `dict`        | `{}`          | URL arguments passed to the view.  `ViewTestCase` applies this dictionary to what is defined in `url_kwargs` or `get_url_kwargs`. |
 | `get_data`   | `dict`        | `{}`          | Adds query parameters to the request URL. E.g., to test a request to `/some/path/?filter=foo` add `get_data={'filter': 'foo'}`. |
 | `post_data`   | `dict`        | `{}`          | Request payload, only relevant for `POST`, `PUT` and `PATCH` requests. `ViewTestCase` applies this dictionary to what is defined in `post_data` or `setup_post_data`. Partial overwrites are allowed. |
+| `session_data`   | `dict`        | `{}`          | If your view relies on data from the session store, you can provide this data using `session_data`. |
 | `content_type`   | `str`        | `application/json`          | **Only available for `APITestCase`**. Sets the content type encoding for the request. |
 
 ### Evaluating a response
