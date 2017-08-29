@@ -26,7 +26,7 @@ class MyViewTestCase(APITestCase, TestCase):
 
 The method `request` returns a response from your view. The response returned is based on the generic [ configuration](#test-configuration) of the test case. 
 
-To test special cases, you can use `url_kwargs`, `get_data`, `post_data`, `session_data` and `content_type` parameters to temporarily overwrite the generic test setup. 
+To test special cases, you can use `url_kwargs`, `get_data`, `post_data`, `session_data`, `view_kwargs` and `content_type` parameters to temporarily overwrite the generic test setup. 
 
 ```python
 class MyViewTestCase(ViewTestCase, TestCase):
@@ -36,7 +36,8 @@ class MyViewTestCase(ViewTestCase, TestCase):
                                  url_kwargs={},
                                  get_data={},
                                  post_data={},
-                                 session_data={})
+                                 session_data={},
+                                 view_kwargs={})
 ```
 
 | Argument      | Type          | Default       | Description   |
@@ -47,6 +48,7 @@ class MyViewTestCase(ViewTestCase, TestCase):
 | `get_data`   | `dict`        | `{}`          | Adds query parameters to the request URL. E.g., to test a request to `/some/path/?filter=foo` add `get_data={'filter': 'foo'}`. |
 | `post_data`   | `dict`        | `{}`          | Request payload, only relevant for `POST`, `PUT` and `PATCH` requests. `ViewTestCase` applies this dictionary to what is defined in `post_data` or `setup_post_data`. Partial overwrites are allowed. |
 | `session_data`   | `dict`        | `{}`          | If your view relies on data from the session store, you can provide this data using `session_data`. |
+| `view_kargs`   | `dict`        | `{}`          | Overwrites attibutes set in the view class. The behaviour corrspenponds to [providing keyword arguments to a class-based view's `as_view()` method](https://docs.djangoproject.com/en/1.11/topics/class-based-views/#simple-usage-in-your-urlconf).  |
 | `content_type`   | `str`        | `application/json`          | **Only available for `APITestCase`**. Sets the content type encoding for the request. |
 
 ### Evaluating a response
